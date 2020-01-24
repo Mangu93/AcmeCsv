@@ -1,10 +1,13 @@
 package com.amp.acmecsv.web.rest;
 
+import com.amp.acmecsv.remote.CategoryService;
+import com.amp.acmecsv.remote.models.CategoryResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hazelcast.internal.json.Json;
+import io.reactivex.Observable;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -17,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import retrofit2.Response;
+import rx.Subscriber;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.Valid;
@@ -32,30 +37,41 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ReaderResource {
 
+    private final CategoryService categoryService;
     private final Logger log = LoggerFactory.getLogger(ReaderResource.class);
 
-    ReaderResource() {
-
+    ReaderResource(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @PostMapping("/csv")
-    public ResponseEntity<Object> uploadAcmeFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadAcmeFile(@RequestParam("file") MultipartFile file) throws IOException {
         if (file == null) {
             throw new RuntimeException("You must select the a file for uploading");
         }
-        int numberOfSheets;
+        JsonObject categoriesJson;
+        String responseCategory = "";
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
             XSSFSheet categories = workbook.getSheet("categories");
-            JsonObject categoriesJson = createCategoriesJson(categories);
+            categoriesJson = createCategoriesJson(categories);
+            Response<CategoryResponse> response = categoryService.postCategories(categoriesJson.toString()).execute();
+            if (!response.isSuccessful()) {
+                throw new IOException(response.errorBody() != null
+                    ? response.errorBody().string() : "Unknown error");
+            } else {
+                if (response.body() != null) {
+                    Gson gson = new Gson();
+                    responseCategory = gson.toJson(response.body());
+                }
+            }
             XSSFSheet fees = workbook.getSheet("fees");
             JsonObject feesJson = createFeesJson(fees);
-            numberOfSheets = workbook.getNumberOfSheets();
         } catch (IOException ex) {
             log.error(ex.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<>(numberOfSheets, HttpStatus.OK);
+        return new ResponseEntity<>(responseCategory, HttpStatus.OK);
     }
 
     private JsonObject createFeesJson(XSSFSheet sheet) {
