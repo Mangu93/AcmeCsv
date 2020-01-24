@@ -5,9 +5,11 @@ services:
     volumes:
       - ./volumes/:/var/lib/mysql/
     environment:
-      - MYSQL_USER=root
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-      - MYSQL_DATABASE=acmecsv
+      - "MYSQL_USER=root"
+      - "MYSQL_ROOT_PASSWORD=test_pwd"
+      - "MYSQL_PASSWORD=test_pwd"
+      - "MYSQL_DATABASE=acmecsv"
+      - "MYSQL_ROOT_HOST=%"
     ports:
       - 3306:3306
-    command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
+    command: mysqld  --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp
