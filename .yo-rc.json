@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.amp.acmecsv"
+    },
+    "jhipsterVersion": "6.6.0",
+    "applicationType": "microservice",
+    "baseName": "AcmeCsv",
+    "packageName": "com.amp.acmecsv",
+    "packageFolder": "com/amp/acmecsv",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OGE3MTRkYTllMjI1ZTMyOGJjMTc0YzJkNmIwNGQ4YmRiNGNhMDJkNWU4NmJjMDY1NWU4NmRkYzM3ZjBiNDI2ZTJkMTJjYjMyNWE2YWU1Mjk2ZjAwNmQyY2JlMTBhZTk2MGNkZTM5ZGViMTNkMjMwMDcxZTM1NzcyZjQxM2Q0OGU=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1579879954274,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}
