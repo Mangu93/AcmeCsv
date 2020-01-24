@@ -60,7 +60,7 @@ if (project.hasProperty("gae")) {
             mavenBom 'io.github.jhipster:jhipster-dependencies:${jhipster_dependencies_version}'
         }
     }
-    appengineStage.dependsOn thinResolve 
+    appengineStage.dependsOn thinResolve
 }
 
 if (project.hasProperty("zipkin")) {
@@ -140,7 +140,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/AcmeCsv"
             username "root"
-            password ""
+            password "test_pwd"
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName "AcmeCsv"
             logLevel "debug"
@@ -150,7 +150,7 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/AcmeCsv"
             username "root"
-            password ""
+            password "test_pwd"
             changeLogFile project.ext.diffChangelogFile
             referenceUrl "hibernate:spring:com.amp.acmecsv.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
             defaultSchemaName "AcmeCsv"
