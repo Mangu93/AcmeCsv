@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 import io.reactivex.Observable;
 
 public interface CategoryService {
-    @POST("api/category")
+    @POST("api/products")
     Call<CategoryResponse> postCategories(@Body String body);
 }
