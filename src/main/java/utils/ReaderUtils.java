@@ -1,6 +1,7 @@
 package utils;
 
 import com.amp.acmecsv.remote.CategoryService;
+import com.amp.acmecsv.remote.DateService;
 import com.amp.acmecsv.remote.FeeService;
 import com.amp.acmecsv.remote.models.CategoryResponse;
 import com.google.gson.Gson;
@@ -80,6 +81,26 @@ public class ReaderUtils {
     }
 
 
+    public static JsonObject createDatesJson(XSSFSheet sheet) {
+        DataFormatter formatter = new DataFormatter();
+        JsonObject jsonObject = new JsonObject();
+        for (Row row : sheet) {
+            if (row.getRowNum() != 0) {
+                Cell first = row.getCell(0);
+                if (first == null || first.getCellType() == CellType.BLANK) {
+                    break;
+                }
+                String date = formatter.formatCellValue(first);
+                String product = formatter.formatCellValue(row.getCell(1));
+                String declaredValue = formatter.formatCellValue(row.getCell(2));
+                JsonArray array = new JsonArray();
+                array.add(date);
+                array.add(declaredValue);
+                jsonObject.add(product, array);
+            }
+        }
+        return jsonObject;
+    }
     @NotNull
     public static Response<CategoryResponse> handleFees(JsonObject feeJson, FeeService feeService) throws IOException {
         RequestBody requestBody;
@@ -91,6 +112,17 @@ public class ReaderUtils {
     public static Response<CategoryResponse> handleProduct(JsonObject categoriesJson, CategoryService categoryService) throws IOException {
         RequestBody requestBody = getRequestBody(categoriesJson);
         Response<CategoryResponse> response = categoryService.postCategories(requestBody).execute();
+        if (!response.isSuccessful()) {
+            throw new IOException(response.errorBody() != null
+                ? response.errorBody().string() : "Unknown error");
+        }
+        return response;
+    }
+
+    @NotNull
+    public static Response<CategoryResponse> handleDates(JsonObject dateJson, DateService dateService) throws IOException{
+        RequestBody requestBody = getRequestBody(dateJson);
+        Response<CategoryResponse> response = dateService.postDates(requestBody).execute();
         if (!response.isSuccessful()) {
             throw new IOException(response.errorBody() != null
                 ? response.errorBody().string() : "Unknown error");
