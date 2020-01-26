@@ -1,8 +1,8 @@
 package com.amp.acmecsv.web.rest;
 
-import com.amp.acmecsv.remote.CategoryService;
 import com.amp.acmecsv.remote.DateService;
 import com.amp.acmecsv.remote.FeeService;
+import com.amp.acmecsv.remote.ProductService;
 import com.amp.acmecsv.remote.models.CategoryResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -27,13 +27,13 @@ import static utils.ReaderUtils.*;
 @RequestMapping("/api")
 public class ReaderResource {
 
-    private final CategoryService categoryService;
+    private final ProductService productService;
     private final FeeService feeService;
     private final DateService dateService;
     private final Logger log = LoggerFactory.getLogger(ReaderResource.class);
 
-    ReaderResource(CategoryService categoryService, FeeService feeService, DateService dateService) {
-        this.categoryService = categoryService;
+    ReaderResource(ProductService productService, FeeService feeService, DateService dateService) {
+        this.productService = productService;
         this.feeService = feeService;
         this.dateService = dateService;
     }
@@ -51,7 +51,7 @@ public class ReaderResource {
             XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
             XSSFSheet categories = workbook.getSheet("categories");
             categoriesJson = createCategoriesJson(categories);
-            Response<CategoryResponse> response = handleProduct(categoriesJson, categoryService);
+            Response<CategoryResponse> response = handleProduct(categoriesJson, productService);
             //If the previous response doesn't work, we don't get to the next one ever.
             //If it works, we don't care about the message, and we proceed to the next
             XSSFSheet fees = workbook.getSheet("fees");

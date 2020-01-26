@@ -1,8 +1,8 @@
 package utils;
 
-import com.amp.acmecsv.remote.CategoryService;
 import com.amp.acmecsv.remote.DateService;
 import com.amp.acmecsv.remote.FeeService;
+import com.amp.acmecsv.remote.ProductService;
 import com.amp.acmecsv.remote.models.CategoryResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -109,9 +109,9 @@ public class ReaderUtils {
     }
 
     @NotNull
-    public static Response<CategoryResponse> handleProduct(JsonObject categoriesJson, CategoryService categoryService) throws IOException {
+    public static Response<CategoryResponse> handleProduct(JsonObject categoriesJson, ProductService productService) throws IOException {
         RequestBody requestBody = getRequestBody(categoriesJson);
-        Response<CategoryResponse> response = categoryService.postCategories(requestBody).execute();
+        Response<CategoryResponse> response = productService.postCategories(requestBody).execute();
         if (!response.isSuccessful()) {
             throw new IOException(response.errorBody() != null
                 ? response.errorBody().string() : "Unknown error");

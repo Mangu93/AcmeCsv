@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public interface CategoryService {
+public interface ProductService {
     @POST("api/products")
     Call<CategoryResponse> postCategories(@Body RequestBody body);
 }

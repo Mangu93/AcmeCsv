@@ -9,18 +9,18 @@ import static com.amp.acmecsv.remote.FactoryCommons.makeGson;
 import static com.amp.acmecsv.remote.FactoryCommons.makeRetrofit;
 
 @Service
-public class CategoryServiceFactory {
+public class ProductServiceFactory {
     //TODO To change it to proper config
     private static final String BASE_URL = "http://localhost:8082/services/AcmeCategories/";
 
     @Bean
-    public static CategoryService makeCategoryService() {
+    public static ProductService makeCategoryService() {
         return makeCategoryService(makeGson());
     }
 
-    private static CategoryService makeCategoryService(Gson gson) {
+    private static ProductService makeCategoryService(Gson gson) {
         Retrofit retrofit = makeRetrofit(gson, BASE_URL);
-        return retrofit.create(CategoryService.class);
+        return retrofit.create(ProductService.class);
     }
 
 }
