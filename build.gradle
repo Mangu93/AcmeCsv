@@ -89,19 +89,21 @@ springBoot {
     mainClassName = "com.amp.acmecsv.AcmeCsvApp"
 }
 
+//test {
+//    useJUnitPlatform()
+////    exclude "**/*IT*", "**/*IntTest*"
+//
+//    testLogging {
+//        events 'FAILED', 'SKIPPED'
+//    }
+//    // uncomment if the tests reports are not generated
+//    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
+//    // ignoreFailures true
+//    reports.html.enabled = false
+//}
 test {
     useJUnitPlatform()
-    exclude "**/*IT*", "**/*IntTest*"
-
-    testLogging {
-        events 'FAILED', 'SKIPPED'
-    }
-    // uncomment if the tests reports are not generated
-    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
-    // ignoreFailures true
-    reports.html.enabled = false
 }
-
 task integrationTest(type: Test) {
     useJUnitPlatform()
     description = "Execute integration tests."
@@ -289,6 +291,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
+    implementation 'com.squareup.retrofit2:retrofit-mock:2.6.1'
     implementation("com.squareup.okhttp3:okhttp:4.1.0")
     implementation "com.squareup.okhttp3:logging-interceptor:4.1.0"
 }
