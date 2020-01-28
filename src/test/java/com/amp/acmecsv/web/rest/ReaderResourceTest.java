@@ -84,4 +84,12 @@ public class ReaderResourceTest {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/csv").file(excelFile))
             .andExpect(status().is(200));
     }
+
+    @Test
+    @Transactional
+    public void testWrongFile() throws Exception {
+        MockMultipartFile excelFile = new MockMultipartFile("file", readFile("wrongfile.xlsx"));
+        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/csv").file(excelFile))
+            .andExpect(status().is(500));
+    }
 }
